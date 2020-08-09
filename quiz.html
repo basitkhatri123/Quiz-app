@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        .card {
+            background-color: #FFF !important;
+            border: none !important;
+            width: 70% !important;
+            margin: 0 auto !important;
+            padding: 40px 30px 20px 30px;
+            min-height: 250px;
+            box-shadow: 0 0 8px 2px #888;
+        }
+
+        input#name {
+            border: none !important;
+            background: none !important;
+            border-bottom: 2px solid #19b1c0 !important;
+            font-size: 20px;
+            padding-left: 10px;
+            outline: none;
+        }
+
+        input#name:focus {
+            border: none !important;
+            background: none !important;
+            border-bottom: 2px solid #000 !important;
+            outline: none;
+            transition: 0.5s;
+        }
+
+        .btn {
+            background: #19b1c0;
+            color: white;
+            font-size: 20px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            float: right;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .error {
+            padding-left: 10px;
+            color: red;
+            font-size: 20px;
+            margin: 0 !important;
+        }
+
+        #counterDiv {
+            background: #19b1c0;
+        }
+
+        #counterDiv span {
+            color: white;
+            padding: 1px 15px 3px 15px;
+            font-size: 25px;
+        }
+
+        span.warning-class {
+            animation: blinker 1s linear infinite;
+
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        .warning-class {
+            color: red !important;
+        }
+
+        /* #counter h3 {
+            display: inline-block !important;
+            color: white;
+            background: black;
+            font-size: 25px;
+        } */
+
+        .hide {
+            display: none;
+        }
+
+        #quizTitle {
+            padding: 5px 0px 0px 20px;
+        }
+
+        #quizresult-body h3 {
+            padding: 8px 0px 9px 11px;
+            text-transform: uppercase;
+            text-align: center;
+            border: 1px solid black;
+            background: #12adbc;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+        }
+
+        #quizresult-body p {
+            text-align: center;
+            padding: 10px 0px 10px 13px;
+            font-size: 1.3em;
+            text-transform: capitalize;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin: 0;
+            border: 1px solid black;
+            border-top: none !important
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="col-sm-12">
+                        <h1>Welcome to Quiz Bank</h1>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <input type="text" id="name" class="w-100" placeholder="Enter Your Name">
+                        <div class="error"></div>
+                    </div>
+                    <div class="col-sm-12 mt-3">
+                        <button id="btnname" class="btn f-left">Start Quiz</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- instructions -->
+    <!-- Modal -->
+    <div class="modal fade" id="instructions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Quiz Instructions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ol>
+                        <li>Quiz has 5 questions. All quesions are equal in mark</li>
+                        <li>Each question has maxmium 3 min</li>
+                        <li>Total time of quiz will be 15 min</li>
+                        <li>You have only one attempt</li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="startQuiz" class="btn btn-primary">Start Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- quiz -->
+    <!-- Modal -->
+    <div class="modal fade" id="quiz" keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header p-0">
+                    <h4 class="modal-title" id="quizTitle">Quiz</h4>
+                    <div id="counterDiv">
+                        <span id="counter"></span>
+                    </div>
+                </div>
+                <div class="modal-body" id="quiz-body"></div>
+                <div class="modal-footer">
+                    <button type="button" id="next" data-no="1" class="btn btn-primary">Next</button>
+                    <button type="button" id="submit" class="btn btn-primary hide">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- result -->
+    <!-- Modal -->
+    <div class="modal fade" id="result" keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Quiz Result</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="quizresult-body">
+                    <div>
+                        <h3>Quiz Result</h3>
+                        <p class="result"></p>
+                    </div>
+                    <div class="mt-3 pb-3">
+                        <h3>Quiz remaks</h3>
+                        <p class="remarks"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="js/jquery.countdown.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+
+</html>
